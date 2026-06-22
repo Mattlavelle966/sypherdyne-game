@@ -457,6 +457,7 @@
 
     const clock = new THREE.Clock();
     const keys = Object.create(null);
+    const keyValue = (code) => keys[code] ? 1 : 0;
     const velocity = new THREE.Vector3();
     const moveDir = new THREE.Vector3();
     const forward = new THREE.Vector3();
@@ -1863,9 +1864,9 @@
       const damping = flying ? 4.5 : bikeState.mounted ? 3.5 : onGround ? 9 : 1.4;
 
       moveDir.set(
-        Number(keys.KeyD) - Number(keys.KeyA),
+        keyValue("KeyD") - keyValue("KeyA"),
         0,
-        Number(keys.KeyW) - Number(keys.KeyS)
+        keyValue("KeyW") - keyValue("KeyS")
       );
 
       if (moveDir.lengthSq() > 0) moveDir.normalize();
@@ -1885,7 +1886,7 @@
       }
 
       if (flying) {
-        const lift = Number(keys.Space) - Number(keys.KeyC);
+        const lift = keyValue("Space") - keyValue("KeyC");
         velocity.y += (lift * 26 - velocity.y) * Math.min(1, 8 * delta);
       } else {
         velocity.y -= bikeState.mounted ? 48 * delta : 24 * delta;
